@@ -1,25 +1,73 @@
-# GI-M02 — Gymnasium Inspector: Termination and Truncation Semantics
+# Task: GI-M02
 
-Repair the provided Gymnasium environment so that its episode termination semantics are correct.
+## Objective
 
-The environment contains a deterministic task in which reaching the target state is a successful terminal condition, while exceeding the configured episode horizon is a truncation condition.
+Solve the Gymnasium/Inspector environment task and reach the verified target state.
 
-Your implementation must preserve the public Gymnasium API and correctly distinguish termination caused by task success from truncation caused by the episode time limit.
+## Domain
 
-Required behavior:
+RL / Gymnasium / Inspector
 
-1. reset() returns exactly (observation, info).
-2. step(action) returns exactly:
-   observation, reward, terminated, truncated, info
-3. Successful completion sets terminated=True and truncated=False.
-4. Exhausting the configured horizon without successful completion sets terminated=False and truncated=True.
-5. terminated and truncated must never both be True.
-6. Returned observations must belong to observation_space.
-7. Accepted actions must belong to action_space.
-8. reward must be a float.
-9. info must be a dictionary.
-10. The environment must remain deterministic when reset(seed=...) is used with the same seed.
+## Difficulty
 
-Do not modify the tests, oracle, or verifier.
+medium
 
-The verifier evaluates externally observable behavior rather than implementation details.
+## Primary capability
+
+state_reasoning
+
+## Environment
+
+The environment is stateful and interaction-driven.
+
+The agent must use observations and available actions/tools to determine the correct sequence of operations.
+
+The target state is not assumed to be directly visible.
+
+## Constraints
+
+- Do not assume hidden state.
+- Do not bypass the environment.
+- Do not modify verifier or oracle artifacts.
+- Do not rely on a fixed reference trajectory.
+- The final state must satisfy the verifier.
+- Intermediate actions must remain valid environment interactions.
+
+## Reasoning requirements
+
+The task is evaluated over an interaction trajectory rather than a single answer.
+
+The agent may need to:
+
+1. Inspect the current state.
+2. Select an appropriate action.
+3. Observe the resulting transition.
+4. Update its plan.
+5. Recover from incorrect intermediate decisions when possible.
+6. Reach the final target state.
+7. Produce behavior accepted by the verifier.
+
+## Hidden evaluation
+
+The evaluator may use unseen parameterizations and adversarial cases.
+
+Visible task information must not expose the complete reference trajectory.
+
+## Reward
+
+The environment exposes multiple reward components:
+
+- progress
+- correctness
+- tests
+- efficiency
+- terminal
+- penalties
+
+The final reward is the sum represented by the environment's RewardBreakdown contract.
+
+Reward must reflect correct behavior rather than shortcut exploitation.
+
+## Success
+
+Success requires verified final-state correctness and a valid interaction trajectory.

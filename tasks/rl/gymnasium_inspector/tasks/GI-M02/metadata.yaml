@@ -1,0 +1,21 @@
+task_id: "GI-M02"
+domain: "rl"
+family: "gymnasium_inspector"
+difficulty: "medium"
+capability: "state_reasoning"
+environment: "gymnasium_inspector"
+horizon: 100
+oracle: true
+verifier: true
+hidden_evaluation: true
+multi_reward: true
+reward_components:
+  - progress
+  - correctness
+  - tests
+  - efficiency
+  - terminal
+  - penalties
+reasoning_traps:
+  - none_declared
+status: "skeleton"
