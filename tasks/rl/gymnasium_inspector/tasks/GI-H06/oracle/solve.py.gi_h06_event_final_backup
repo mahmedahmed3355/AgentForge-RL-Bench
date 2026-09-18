@@ -1,0 +1,47 @@
+import json
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from environment.data.gym_env import ProgressPreservingRecoveryEnv
+
+def main():
+    env = ProgressPreservingRecoveryEnv()
+    obs, info = env.reset(seed=123)
+    actions = [0, 1, 1, 2, 1, 1, 3]
+    trajectory = []
+    total = 0.0
+    for action in actions:
+        obs, reward, terminated, truncated, info = env.step(action)
+        total += float(reward)
+        trajectory.append({
+            "action": action,
+            "progress": int(info["progress"]),
+            "failed": bool(info["failed"]),
+            "recovered": bool(info["recovered"]),
+            "stage": info["stage"],
+            "reward": float(reward),
+            "terminated": bool(terminated),
+            "truncated": bool(truncated),
+        })
+        if terminated or truncated:
+            break
+    payload = {
+        "success": bool(terminated and not truncated and env.progress == 4 and env.recovered),
+        "steps": len(trajectory),
+        "terminated": bool(terminated),
+        "truncated": bool(truncated),
+        "final_progress": int(env.progress),
+        "final_failed": bool(env.failed),
+        "final_recovered": bool(env.recovered),
+        "reward_total": total,
+        "observation_valid": bool(env.observation_space.contains(obs)),
+        "trajectory_length": len(trajectory),
+        "trajectory": trajectory,
+    }
+    print(json.dumps(payload, indent=2))
+    return 0 if payload["success"] and payload["observation_valid"] else 1
+
+if __name__ == "__main__":
+    raise SystemExit(main())

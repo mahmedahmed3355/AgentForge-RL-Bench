@@ -1,0 +1,68 @@
+schema_version: "1.0"
+
+task_id: GI-H10
+difficulty: hard
+family: persistence
+primary_capability: persistence
+
+title: Interrupted Episode Resume
+
+scenario: >
+  Execution is interrupted after a checkpoint and must resume correctly.
+
+objective: >
+  Resume from persistent state without replaying invalid transient actions.
+
+initial_state:
+  checkpoint_progress: 2
+  committed: true
+  interrupted: true
+  progress_before_resume: 0
+
+stages:
+  - inspect
+  - resume
+  - continue
+  - validate
+  - finish
+
+inspector:
+  enabled: true
+  operations:
+    - inspect_checkpoint
+    - inspect_progress
+    - inspect_state
+
+actions:
+  - inspect
+  - resume
+  - continue
+  - finish
+
+main_trap: replaying_already_committed_state_transitions
+
+failure_modes:
+  - duplicate_transition
+  - stale_state
+  - persistence_loss
+
+recovery: reload_latest_valid_checkpoint
+
+reward_focus:
+  persistence: true
+  correctness: true
+  efficiency: true
+  terminal_success: true
+
+oracle: resume_exactly_from_persistent_state
+verifier: validate_checkpoint_semantics_and_final_state
+hidden_evaluation: vary_interruption_boundary
+
+terminal_conditions:
+  progress: 4
+  checkpoint_progress: 2
+  resumed: true
+  committed: true
+  finished: true
+  duplicate_transition: false
+  stale_state: false

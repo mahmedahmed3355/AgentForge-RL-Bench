@@ -1,0 +1,43 @@
+id: GI-H08
+title: Action Efficient Completion
+difficulty: hard
+family: optimization
+primary_capability: optimization
+
+objective:
+  - reach the valid terminal state
+  - preserve correctness
+  - remain within the efficiency budget
+
+environment:
+  entrypoint: environment.data.gym_env:ActionEfficientCompletionEnv
+  deterministic_seed: true
+  target_progress: 4
+  efficiency_budget: 6
+
+actions:
+  inspect: 0
+  fast_execute: 1
+  safe_execute: 2
+  unnecessary_action: 3
+  finish: 4
+
+reward:
+  components:
+    correctness: true
+    efficiency: true
+    terminal_success: true
+
+oracle:
+  entrypoint: oracle.solve
+  deterministic: true
+
+verifier:
+  entrypoint: verifier.verify
+  independent: true
+  recompute_terminal_validity: true
+
+validation:
+  trajectory_audit: true
+  hidden_boundary: true
+  anti_cheat: true

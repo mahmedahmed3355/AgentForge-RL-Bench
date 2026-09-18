@@ -1,0 +1,11 @@
+{
+  "success": true,
+  "steps": 6,
+  "terminated": true,
+  "truncated": false,
+  "final_position": 6,
+  "final_energy": 0,
+  "reward_total": 14.0,
+  "observation_valid": true,
+  "trajectory_length": 6
+}

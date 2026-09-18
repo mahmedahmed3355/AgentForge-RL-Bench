@@ -1,0 +1,151 @@
+from __future__ import annotations
+
+from typing import Any
+
+import gymnasium as gym
+import numpy as np
+from gymnasium import spaces
+
+
+class InterruptedEpisodeResumeEnv(gym.Env):
+    metadata = {"render_modes": []}
+
+    def __init__(self, seed: int | None = None):
+        super().__init__()
+        self.action_space = spaces.Discrete(4)
+        self.observation_space = spaces.Dict(
+            {
+                "progress": spaces.Discrete(5),
+                "checkpoint_progress": spaces.Discrete(5),
+                "interrupted": spaces.Discrete(2),
+                "resumed": spaces.Discrete(2),
+                "committed": spaces.Discrete(2),
+                "finished": spaces.Discrete(2),
+            }
+        )
+
+        self._seed = seed
+        self.progress = 0
+        self.checkpoint_progress = 2
+        self.interrupted = True
+        self.resumed = False
+        self.committed = True
+        self.finished = False
+        self.step_count = 0
+        self.replayed = False
+        self.duplicate_transition = False
+        self.stale_state = False
+
+    def _obs(self) -> dict[str, int]:
+        return {
+            "progress": int(self.progress),
+            "checkpoint_progress": int(self.checkpoint_progress),
+            "interrupted": int(self.interrupted),
+            "resumed": int(self.resumed),
+            "committed": int(self.committed),
+            "finished": int(self.finished),
+        }
+
+    def reset(
+        self,
+        *,
+        seed: int | None = None,
+        options: dict[str, Any] | None = None,
+    ):
+        super().reset(seed=seed)
+
+        if seed is not None:
+            self._seed = seed
+
+        self.progress = 0
+        self.checkpoint_progress = 2
+        self.interrupted = True
+        self.resumed = False
+        self.committed = True
+        self.finished = False
+        self.step_count = 0
+        self.replayed = False
+        self.duplicate_transition = False
+        self.stale_state = False
+
+        info = {
+            "checkpoint_progress": self.checkpoint_progress,
+            "checkpoint_valid": True,
+            "persistent_progress": self.checkpoint_progress,
+            "interrupted": True,
+            "committed": True,
+        }
+
+        return self._obs(), info
+
+    def step(self, action: int):
+        self.step_count += 1
+        reward = 0.0
+        terminated = False
+        truncated = False
+        event = "noop"
+
+        if action == 0:
+            reward = 0.5
+            event = "inspection"
+
+        elif action == 1:
+            if not self.interrupted:
+                reward = -1.0
+                self.stale_state = True
+                event = "invalid_resume"
+            elif self.resumed:
+                reward = -1.0
+                self.duplicate_transition = True
+                event = "duplicate_resume"
+            else:
+                self.progress = self.checkpoint_progress
+                self.resumed = True
+                self.interrupted = False
+                reward = 2.5
+                event = "checkpoint_resumed"
+
+        elif action == 2:
+            if not self.resumed:
+                reward = -1.0
+                event = "continue_before_resume"
+            elif self.progress >= 4:
+                reward = -1.0
+                self.duplicate_transition = True
+                event = "duplicate_transition"
+            else:
+                self.progress += 1
+                self.committed = True
+                reward = 1.0
+                event = "continued_from_checkpoint"
+
+        elif action == 3:
+            if (
+                self.resumed
+                and self.progress == 4
+                and self.committed
+                and not self.duplicate_transition
+                and not self.stale_state
+            ):
+                self.finished = True
+                reward = 5.0
+                terminated = True
+                event = "terminal_verified"
+            else:
+                reward = -1.5
+                event = "invalid_finish"
+
+        info = {
+            "event": event,
+            "checkpoint_progress": self.checkpoint_progress,
+            "persistent_progress": self.checkpoint_progress,
+            "progress": self.progress,
+            "resumed": self.resumed,
+            "interrupted": self.interrupted,
+            "committed": self.committed,
+            "duplicate_transition": self.duplicate_transition,
+            "stale_state": self.stale_state,
+            "finished": self.finished,
+        }
+
+        return self._obs(), float(reward), terminated, truncated, info

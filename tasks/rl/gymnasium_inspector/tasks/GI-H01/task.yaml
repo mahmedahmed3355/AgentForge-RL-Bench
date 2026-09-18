@@ -1,0 +1,33 @@
+task_id: GI-H01
+version: "1.0.0"
+domain: gymnasium_inspector
+difficulty: hard
+status: complete
+name: Gymnasium seeded state and termination inspection
+objective: Repair the environment so seeded initialization, action validation, observation validity, reward typing, termination, truncation, and episode boundaries satisfy the Gymnasium contract.
+agent_interface:
+  type: terminal
+  working_directory: environment/data
+environment:
+  entrypoint: gym_env.py
+  class: GymInspectorEnv
+evaluation:
+  deterministic: true
+  hidden_verifier: true
+  trajectory_audit: true
+  boundary_cases: true
+oracle:
+  deterministic: true
+  entrypoint: oracle/solve.py
+reward:
+  type: multi_reward
+  components:
+    - progress
+    - correctness
+    - completion
+    - boundary
+verifier:
+  hidden: true
+  entrypoint: verifier/verify.py
+anti_cheat:
+  enabled: true

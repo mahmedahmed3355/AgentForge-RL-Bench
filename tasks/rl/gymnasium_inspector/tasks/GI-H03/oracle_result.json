@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "steps": 4,
+  "terminated": true,
+  "truncated": false,
+  "final_state": 5,
+  "final_resources": 3,
+  "reward_total": 9.5,
+  "observation_valid": true,
+  "trajectory_length": 4,
+  "trajectory": [
+    {
+      "action": 0,
+      "state": 1,
+      "resources": 10,
+      "reward": 0.5,
+      "terminated": false,
+      "truncated": false
+    },
+    {
+      "action": 1,
+      "state": 2,
+      "resources": 7,
+      "reward": 2.0,
+      "terminated": false,
+      "truncated": false
+    },
+    {
+      "action": 2,
+      "state": 4,
+      "resources": 3,
+      "reward": 3.0,
+      "terminated": false,
+      "truncated": false
+    },
+    {
+      "action": 3,
+      "state": 5,
+      "resources": 3,
+      "reward": 4.0,
+      "terminated": true,
+      "truncated": false
+    }
+  ]
+}

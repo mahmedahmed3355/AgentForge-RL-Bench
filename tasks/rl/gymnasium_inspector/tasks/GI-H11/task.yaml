@@ -1,0 +1,45 @@
+schema_version: "1.0"
+
+task_id: GI-H11
+title: Unseen Parameter Composition
+difficulty: hard
+family: generalization
+primary_capability: generalization
+
+environment:
+  entrypoint: environment/data/gym_env.py
+  class: UnseenParameterCompositionEnv
+
+objective:
+  - inspect public parameters
+  - derive invariant behavior
+  - plan from constraints
+  - execute the rule-consistent result
+  - verify before termination
+
+actions:
+  inspect: 0
+  plan: 1
+  execute: 2
+  finish: 3
+
+invariant:
+  formula: "result = alpha * 2 + beta"
+  constraint: "result <= limit"
+
+terminal_conditions:
+  inspected: true
+  planned: true
+  executed: true
+  verified: true
+  constraint_ok: true
+
+anti_cheat:
+  memorized_configuration_invalid: true
+  hidden_state_access_invalid: true
+  constraint_violation_invalid: true
+
+reward_focus:
+  correctness: true
+  generalization: true
+  terminal_success: true

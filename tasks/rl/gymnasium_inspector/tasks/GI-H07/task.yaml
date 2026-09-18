@@ -1,0 +1,38 @@
+task_id: GI-H07
+name: Multi-Condition Terminal Verification
+difficulty: hard
+family: verification
+primary_capability: verification
+
+description: >
+  Success requires multiple interacting conditions to be satisfied,
+  independently validated, and revalidated before termination.
+
+objective: >
+  Verify all terminal invariants and their dependencies before finishing.
+
+actions:
+  inspect: 0
+  validate: 1
+  resolve: 2
+  finish: 3
+
+reward:
+  inspect: 0.5
+  validate: 1.5
+  resolve: 2.5
+  finish: 5.0
+  invalid: -1.0
+
+terminal:
+  required:
+    - base_ready
+    - dependency_ready
+    - integrity_ok
+    - revalidated
+  success_reward: 5.0
+
+anti_cheat:
+  verifier_replays_actions: true
+  terminal_state_must_be_recomputed: true
+  hidden_boundary_reserved: true

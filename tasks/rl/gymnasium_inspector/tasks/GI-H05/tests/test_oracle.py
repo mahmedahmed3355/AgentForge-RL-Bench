@@ -1,0 +1,30 @@
+from __future__ import annotations
+
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_oracle_completes():
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "oracle" / "solve.py")],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0
+
+    payload = json.loads(result.stdout)
+
+    assert payload["success"] is True
+    assert payload["terminated"] is True
+    assert payload["truncated"] is False
+    assert payload["final_diagnosis"] == 2
+    assert payload["final_recovered"] is True
+    assert payload["observation_valid"] is True
+    assert payload["trajectory_length"] == 4

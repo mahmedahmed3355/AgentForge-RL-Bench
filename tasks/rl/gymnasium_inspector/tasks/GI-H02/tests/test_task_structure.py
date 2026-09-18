@@ -1,0 +1,50 @@
+from pathlib import Path
+
+import yaml
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_required_task_structure():
+    required = [
+        "instruction.md",
+        "task.yaml",
+        "environment/data/gym_env.py",
+        "oracle/solve.py",
+        "verifier/verify.py",
+        "tests/test_gym_env.py",
+        "tests/test_oracle.py",
+        "tests/test_outputs.py",
+        "tests/test_multi_reward.py",
+        "tests/test_hidden_boundary.py",
+        "tests/test_trajectory_audit.py",
+        "tests/test_anti_cheat.py",
+        "tests/test_task_structure.py",
+    ]
+
+    for rel in required:
+        assert (ROOT / rel).is_file(), rel
+
+    payload = yaml.safe_load(
+        (ROOT / "task.yaml").read_text(encoding="utf-8")
+    )
+
+    required_keys = {
+        "task_id",
+        "version",
+        "name",
+        "domain",
+        "difficulty",
+        "objective",
+        "agent_interface",
+        "environment",
+        "evaluation",
+        "reward",
+        "oracle",
+        "verifier",
+    }
+
+    assert required_keys.issubset(payload)
+    assert payload["task_id"] == "GI-H02"
+    assert payload["difficulty"] == "hard"
