@@ -1,0 +1,5 @@
+task_id: GI-H06
+version: 1.0.0
+domain: gymnasium_inspector
+difficulty: hard
+status: design_pending

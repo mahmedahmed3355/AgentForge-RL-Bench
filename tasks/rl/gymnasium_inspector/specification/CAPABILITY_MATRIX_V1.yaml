@@ -1,0 +1,360 @@
+schema_version: "1.0"
+domain: "gymnasium_inspector"
+task_count: 33
+difficulty_distribution:
+  medium: 11
+  hard: 11
+  very_hard: 11
+
+tasks:
+
+  - task_id: "GI-M01"
+    difficulty: "medium"
+    family: "observation"
+    primary_capability: "observation"
+    secondary_capabilities: ["state_reasoning"]
+    concept: "identify the relevant state signal from structured observations"
+    core_challenge: "distinguish useful state information from irrelevant observation fields"
+    progression_role: "baseline observation reasoning"
+
+  - task_id: "GI-M02"
+    difficulty: "medium"
+    family: "state_reasoning"
+    primary_capability: "state_reasoning"
+    secondary_capabilities: ["observation"]
+    concept: "infer the current logical state from multiple observation fields"
+    core_challenge: "combine several state indicators into one correct interpretation"
+    progression_role: "multi-field state interpretation"
+
+  - task_id: "GI-M03"
+    difficulty: "medium"
+    family: "action_selection"
+    primary_capability: "action_selection"
+    secondary_capabilities: ["state_reasoning"]
+    concept: "select a valid action from state-dependent choices"
+    core_challenge: "respect action preconditions"
+    progression_role: "state-conditioned action selection"
+
+  - task_id: "GI-M04"
+    difficulty: "medium"
+    family: "dependency_tracking"
+    primary_capability: "dependency_tracking"
+    secondary_capabilities: ["planning"]
+    concept: "complete dependent milestones in the required order"
+    core_challenge: "identify prerequisite relationships"
+    progression_role: "ordered dependency reasoning"
+
+  - task_id: "GI-M05"
+    difficulty: "medium"
+    family: "planning"
+    primary_capability: "planning"
+    secondary_capabilities: ["action_selection"]
+    concept: "reach a target state through a short action sequence"
+    core_challenge: "select a valid sequence instead of isolated greedy actions"
+    progression_role: "short-horizon planning"
+
+  - task_id: "GI-M06"
+    difficulty: "medium"
+    family: "inspector"
+    primary_capability: "tool_usage"
+    secondary_capabilities: ["observation", "state_reasoning"]
+    concept: "use Inspector queries to resolve public environment state"
+    core_challenge: "choose the relevant inspection operation"
+    progression_role: "basic Inspector usage"
+
+  - task_id: "GI-M07"
+    difficulty: "medium"
+    family: "diagnosis"
+    primary_capability: "diagnosis"
+    secondary_capabilities: ["state_reasoning", "tool_usage"]
+    concept: "identify the cause of an observable environment failure"
+    core_challenge: "map symptoms to the correct failure condition"
+    progression_role: "single-failure diagnosis"
+
+  - task_id: "GI-M08"
+    difficulty: "medium"
+    family: "verification"
+    primary_capability: "verification"
+    secondary_capabilities: ["tool_usage"]
+    concept: "verify whether a target state satisfies explicit conditions"
+    core_challenge: "check all required conditions before termination"
+    progression_role: "explicit verification"
+
+  - task_id: "GI-M09"
+    difficulty: "medium"
+    family: "recovery"
+    primary_capability: "recovery"
+    secondary_capabilities: ["diagnosis", "action_selection"]
+    concept: "recover from one known recoverable failure"
+    core_challenge: "diagnose then execute the valid recovery action"
+    progression_role: "single-step recovery reasoning"
+
+  - task_id: "GI-M10"
+    difficulty: "medium"
+    family: "persistence"
+    primary_capability: "persistence"
+    secondary_capabilities: ["verification"]
+    concept: "maintain required progress across an episode checkpoint"
+    core_challenge: "preserve logical progress without violating state invariants"
+    progression_role: "basic persistence"
+
+  - task_id: "GI-M11"
+    difficulty: "medium"
+    family: "generalization"
+    primary_capability: "generalization"
+    secondary_capabilities: ["state_reasoning", "planning"]
+    concept: "solve parameterized variants of the same task"
+    core_challenge: "avoid memorizing one fixed state configuration"
+    progression_role: "medium generalization boundary"
+
+  - task_id: "GI-H01"
+    difficulty: "hard"
+    family: "observation"
+    primary_capability: "observation"
+    secondary_capabilities: ["state_reasoning", "tool_usage"]
+    concept: "interpret delayed and partially informative observations"
+    core_challenge: "maintain correct state interpretation when observations are incomplete"
+    progression_role: "observation ambiguity"
+
+  - task_id: "GI-H02"
+    difficulty: "hard"
+    family: "state_reasoning"
+    primary_capability: "state_reasoning"
+    secondary_capabilities: ["dependency_tracking"]
+    concept: "track interacting state variables across multiple transitions"
+    core_challenge: "reason about state changes that affect later decisions"
+    progression_role: "multi-variable state reasoning"
+
+  - task_id: "GI-H03"
+    difficulty: "hard"
+    family: "planning"
+    primary_capability: "planning"
+    secondary_capabilities: ["dependency_tracking", "action_selection"]
+    concept: "plan through a branching action space with irreversible choices"
+    core_challenge: "avoid locally attractive actions that create future dead ends"
+    progression_role: "branching planning"
+
+  - task_id: "GI-H04"
+    difficulty: "hard"
+    family: "dependency_tracking"
+    primary_capability: "dependency_tracking"
+    secondary_capabilities: ["planning", "verification"]
+    concept: "satisfy a dependency graph before terminal validation"
+    core_challenge: "track multiple prerequisites and downstream consequences"
+    progression_role: "dependency graph reasoning"
+
+  - task_id: "GI-H05"
+    difficulty: "hard"
+    family: "diagnosis"
+    primary_capability: "diagnosis"
+    secondary_capabilities: ["tool_usage", "state_reasoning"]
+    concept: "diagnose one of several similar failure modes"
+    core_challenge: "select diagnostic evidence that distinguishes competing causes"
+    progression_role: "ambiguous diagnosis"
+
+  - task_id: "GI-H06"
+    difficulty: "hard"
+    family: "recovery"
+    primary_capability: "recovery"
+    secondary_capabilities: ["diagnosis", "planning"]
+    concept: "recover from a failure while preserving previously completed progress"
+    core_challenge: "choose recovery actions without resetting valid progress"
+    progression_role: "state-preserving recovery"
+
+  - task_id: "GI-H07"
+    difficulty: "hard"
+    family: "verification"
+    primary_capability: "verification"
+    secondary_capabilities: ["state_reasoning", "tool_usage"]
+    concept: "validate a multi-condition terminal state"
+    core_challenge: "detect hidden dependencies between verification conditions"
+    progression_role: "multi-condition verification"
+
+  - task_id: "GI-H08"
+    difficulty: "hard"
+    family: "optimization"
+    primary_capability: "optimization"
+    secondary_capabilities: ["planning", "efficiency"]
+    concept: "reach the objective while minimizing unnecessary actions"
+    core_challenge: "balance correctness against action cost"
+    progression_role: "efficiency-aware planning"
+
+  - task_id: "GI-H09"
+    difficulty: "hard"
+    family: "inspector"
+    primary_capability: "tool_usage"
+    secondary_capabilities: ["diagnosis", "verification"]
+    concept: "combine multiple Inspector operations to reconstruct environment state"
+    core_challenge: "choose an efficient inspection sequence"
+    progression_role: "composed Inspector reasoning"
+
+  - task_id: "GI-H10"
+    difficulty: "hard"
+    family: "persistence"
+    primary_capability: "persistence"
+    secondary_capabilities: ["recovery", "verification"]
+    concept: "resume progress after a controlled interruption"
+    core_challenge: "distinguish persisted state from transient state"
+    progression_role: "resume semantics"
+
+  - task_id: "GI-H11"
+    difficulty: "hard"
+    family: "generalization"
+    primary_capability: "generalization"
+    secondary_capabilities: ["planning", "diagnosis", "state_reasoning"]
+    concept: "solve unseen parameter combinations using the same underlying rules"
+    core_challenge: "generalize rules instead of memorizing scenarios"
+    progression_role: "hard generalization boundary"
+
+  - task_id: "GI-VH01"
+    difficulty: "very_hard"
+    family: "observation"
+    primary_capability: "observation"
+    secondary_capabilities: ["state_reasoning", "planning"]
+    concept: "reason over delayed, noisy, and state-dependent observations"
+    core_challenge: "maintain a consistent internal state model despite misleading observations"
+    progression_role: "adversarial observation reasoning"
+
+  - task_id: "GI-VH02"
+    difficulty: "very_hard"
+    family: "state_reasoning"
+    primary_capability: "state_reasoning"
+    secondary_capabilities: ["planning", "dependency_tracking"]
+    concept: "track long-horizon interacting state transitions"
+    core_challenge: "preserve causal consistency across a long trajectory"
+    progression_role: "long-horizon state reasoning"
+
+  - task_id: "GI-VH03"
+    difficulty: "very_hard"
+    family: "planning"
+    primary_capability: "planning"
+    secondary_capabilities: ["dependency_tracking", "optimization"]
+    concept: "solve a branching long-horizon planning problem with irreversible consequences"
+    core_challenge: "select a globally valid plan under constrained resources"
+    progression_role: "long-horizon strategic planning"
+
+  - task_id: "GI-VH04"
+    difficulty: "very_hard"
+    family: "dependency_tracking"
+    primary_capability: "dependency_tracking"
+    secondary_capabilities: ["planning", "verification"]
+    concept: "manage a dynamic dependency graph whose requirements change during execution"
+    core_challenge: "update the plan when dependencies are added or invalidated"
+    progression_role: "dynamic dependency reasoning"
+
+  - task_id: "GI-VH05"
+    difficulty: "very_hard"
+    family: "diagnosis"
+    primary_capability: "diagnosis"
+    secondary_capabilities: ["tool_usage", "state_reasoning", "verification"]
+    concept: "identify a root cause among interacting failure modes"
+    core_challenge: "separate primary cause from downstream symptoms"
+    progression_role: "root-cause diagnosis"
+
+  - task_id: "GI-VH06"
+    difficulty: "very_hard"
+    family: "recovery"
+    primary_capability: "recovery"
+    secondary_capabilities: ["diagnosis", "planning", "persistence"]
+    concept: "recover from cascading failures without losing valid progress"
+    core_challenge: "select recovery order under limited recovery resources"
+    progression_role: "cascading-failure recovery"
+
+  - task_id: "GI-VH07"
+    difficulty: "very_hard"
+    family: "verification"
+    primary_capability: "verification"
+    secondary_capabilities: ["state_reasoning", "tool_usage", "generalization"]
+    concept: "prove that a complex terminal state satisfies interacting invariants"
+    core_challenge: "detect subtle invalid states that appear superficially successful"
+    progression_role: "invariant-based verification"
+
+  - task_id: "GI-VH08"
+    difficulty: "very_hard"
+    family: "optimization"
+    primary_capability: "optimization"
+    secondary_capabilities: ["planning", "verification", "efficiency"]
+    concept: "optimize a valid solution under multiple competing constraints"
+    core_challenge: "avoid reward-hacking strategies while optimizing genuine task performance"
+    progression_role: "constrained optimization"
+
+  - task_id: "GI-VH09"
+    difficulty: "very_hard"
+    family: "inspector"
+    primary_capability: "tool_usage"
+    secondary_capabilities: ["diagnosis", "planning", "verification"]
+    concept: "use a restricted Inspector interface to discover enough information for a long-horizon solution"
+    core_challenge: "reason about information value and inspection cost"
+    progression_role: "strategic Inspector usage"
+
+  - task_id: "GI-VH10"
+    difficulty: "very_hard"
+    family: "persistence"
+    primary_capability: "persistence"
+    secondary_capabilities: ["recovery", "verification", "state_reasoning"]
+    concept: "resume a partially completed task across multiple state boundaries"
+    core_challenge: "maintain correct semantics across persistent and transient state"
+    progression_role: "multi-boundary persistence"
+
+  - task_id: "GI-VH11"
+    difficulty: "very_hard"
+    family: "generalization"
+    primary_capability: "generalization"
+    secondary_capabilities: ["planning", "diagnosis", "verification", "state_reasoning"]
+    concept: "solve structurally novel hidden scenarios using generalized task rules"
+    core_challenge: "transfer reasoning to unseen combinations of constraints, failures, and state transitions"
+    progression_role: "maximum generalization challenge"
+
+family_distribution:
+  observation: 3
+  state_reasoning: 3
+  planning: 3
+  action_selection: 1
+  dependency_tracking: 3
+  diagnosis: 3
+  recovery: 3
+  verification: 3
+  optimization: 2
+  inspector: 3
+  persistence: 3
+  generalization: 3
+
+progression_rules:
+  medium:
+    horizon: "short"
+    branching: "limited"
+    failures: "single"
+    recovery: "simple"
+    hidden_dependencies: "limited"
+    generalization: "parameter variation"
+
+  hard:
+    horizon: "medium"
+    branching: "moderate"
+    failures: "multiple"
+    recovery: "state_preserving"
+    hidden_dependencies: "moderate"
+    generalization: "unseen_parameter_combinations"
+
+  very_hard:
+    horizon: "long"
+    branching: "high"
+    failures: "interacting_or_cascading"
+    recovery: "resource_constrained"
+    hidden_dependencies: "substantial"
+    generalization: "structurally_novel_hidden_scenarios"
+
+design_constraints:
+  easy_tasks_allowed: false
+  total_tasks: 33
+  medium_tasks: 11
+  hard_tasks: 11
+  very_hard_tasks: 11
+  duplicate_primary_capability_within_same_difficulty: false
+  oracle_required: true
+  verifier_required: true
+  hidden_evaluation_required: true
+  deterministic_replay_required: true
+  reward_hacking_validation_required: true
+  anti_cheat_validation_required: true
+  no_op_baseline_required: true

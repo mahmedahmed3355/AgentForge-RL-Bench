@@ -9,7 +9,9 @@ description = "Long-horizon RL environments and held-out evaluation benchmark fo
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
-dependencies = []
+dependencies = [
+    "gymnasium>=1.0",
+    "numpy>=1.26",]
 
 [project.optional-dependencies]
 dev = [
@@ -26,3 +28,8 @@ testpaths = ["tests"]
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+]

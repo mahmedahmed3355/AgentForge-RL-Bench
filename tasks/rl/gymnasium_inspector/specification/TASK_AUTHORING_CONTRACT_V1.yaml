@@ -1,0 +1,97 @@
+schema_version: '1.0'
+task_domain: gymnasium_inspector
+task_count: 33
+difficulty_distribution:
+  medium: 11
+  hard: 11
+  very_hard: 11
+required_top_level_fields:
+- task_id
+- version
+- name
+- domain
+- difficulty
+- status
+- objective
+- agent_interface
+- environment
+- reward
+- oracle
+- verifier
+- evaluation
+required_sections:
+  objective:
+  - goal
+  - success_condition
+  - failure_conditions
+  agent_interface:
+  - observation
+  - action
+  - reset
+  - step
+  environment:
+  - type
+  - seed
+  - max_steps
+  - state
+  - transition_rules
+  - termination
+  - truncation
+  reward:
+  - type
+  - components
+  - weights
+  - terminal_reward
+  - failure_penalty
+  oracle:
+  - reference_behavior
+  - expected_trajectory_properties
+  - optimality
+  verifier:
+  - type
+  - hidden
+  - checks
+  - anti_cheat
+  evaluation:
+  - metric
+  - pass_threshold
+  - episode_count
+  - seed_policy
+reward_policy:
+  multi_reward: true
+  required_components:
+  - progress
+  - correctness
+  - efficiency
+  - terminal
+  - penalties
+  total_must_be_deterministic: true
+  weights_must_be_explicit: true
+  reward_hacking_checks_required: true
+oracle_policy:
+  deterministic: true
+  independent_from_agent: true
+  hidden_from_agent: true
+  reference_behavior_required: true
+  must_define_success: true
+  must_define_failure: true
+verifier_policy:
+  deterministic: true
+  hidden_tests_required: true
+  must_validate_final_state: true
+  must_validate_trajectory_constraints: true
+  must_detect_shortcuts: true
+  must_not_depend_on_agent_identity: true
+anti_cheat_policy:
+  no_oracle_leakage: true
+  no_hidden_test_leakage: true
+  no_solution_file_exposure: true
+  no_hardcoded_success_path: true
+  trajectory_auditing: true
+authoring_statuses:
+- design_pending
+- implementation_pending
+- oracle_pending
+- verifier_pending
+- calibration_pending
+- validated

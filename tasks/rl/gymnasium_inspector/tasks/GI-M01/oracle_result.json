@@ -1,0 +1,8 @@
+{
+  "success": true,
+  "steps": 4,
+  "terminated": true,
+  "truncated": false,
+  "final_position": 4,
+  "reward_total": 4.5
+}

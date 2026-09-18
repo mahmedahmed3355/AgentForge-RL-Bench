@@ -1,0 +1,18 @@
+Metadata-Version: 2.4
+Name: agentforge-rl-bench
+Version: 0.1.0
+Summary: Long-horizon RL environments and held-out evaluation benchmark for engineering agents.
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: gymnasium>=1.0
+Requires-Dist: numpy>=1.26
+Provides-Extra: dev
+Requires-Dist: pytest>=8; extra == "dev"
+Requires-Dist: ruff>=0.6; extra == "dev"
+Dynamic: license-file
+
+# AgentForge-RL-Bench
+
+AgentForge-RL-Bench — RL training and long-horizon evaluation benchmark for engineering agents.

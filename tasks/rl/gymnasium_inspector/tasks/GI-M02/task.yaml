@@ -1,0 +1,39 @@
+task_id: GI-M02
+version: "1.0.0"
+domain: gymnasium_inspector
+difficulty: medium
+status: complete
+name: "Gymnasium termination and truncation semantics"
+objective: "Repair a Gymnasium environment so its public API and terminal-state semantics satisfy the task contract."
+agent_interface:
+  type: gymnasium
+  reset: "observation, info"
+  step: "observation, reward, terminated, truncated, info"
+environment:
+  entrypoint: "environment/data/gym_env.py"
+  class: "GymInspectorEnv"
+  deterministic: true
+  api: "gymnasium>=1.0"
+evaluation:
+  mode: "behavioral"
+  deterministic: true
+  hidden: true
+  trajectory_audit: true
+reward:
+  type: "multi_reward"
+  components:
+    progress: "positive incremental reward for advancing toward target"
+    idle_penalty: "negative reward for non-progressing action"
+    terminal_bonus: "larger reward on successful completion"
+oracle:
+  entrypoint: "oracle/solve.py"
+  deterministic: true
+  protected: true
+verifier:
+  entrypoint: "verifier/verify.py"
+  hidden_boundary: true
+  protected: true
+anti_cheat:
+  required: true
+  oracle_verifier_separation: true
+  trajectory_audit: true

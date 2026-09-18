@@ -1,0 +1,23 @@
+schema_version = "1.4"
+
+[task]
+id = "GI-M01"
+name = "Gymnasium Environment Contract Inspection"
+description = "Inspect and repair a Gymnasium environment with a deterministic lifecycle and reward contract."
+authors = [{ name = "AgentForge Benchmark", email = "benchmark@example.com" }]
+
+[metadata]
+category = "reinforcement-learning"
+difficulty = "medium"
+task_type = "environment-repair"
+domain = "gymnasium_inspector"
+rl_environment = true
+long_horizon = false
+
+[verifier]
+timeout_sec = 120
+
+[metadata.gymnasium]
+gymnasium_compatible = true
+action_type = "discrete"
+observation_type = "dict"
