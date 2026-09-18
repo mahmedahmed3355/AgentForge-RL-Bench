@@ -1,0 +1,28 @@
+task_id: GI-M09
+version: "1.0.0"
+domain: gymnasium_inspector
+difficulty: medium
+status: complete
+name: Gymnasium Boundary Contract Inspection
+objective: Repair and validate Gymnasium reset and step boundary semantics.
+agent_interface:
+  type: python_environment_repair
+environment:
+  entrypoint: environment/data/gym_env.py
+  class: GymInspectorEnv
+evaluation:
+  mode: deterministic
+  oracle_required: true
+reward:
+  type: multi_reward
+  required: true
+oracle:
+  path: oracle/solve.py
+  deterministic: true
+verifier:
+  path: verifier/verify.py
+  hidden_boundary: true
+anti_cheat:
+  required: true
+trajectory_audit:
+  required: true
