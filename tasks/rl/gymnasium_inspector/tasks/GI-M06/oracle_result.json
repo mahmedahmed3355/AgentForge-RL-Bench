@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "steps": 7,
+  "terminated": true,
+  "truncated": false,
+  "final_state": 7,
+  "reward_total": 8.5,
+  "observation_valid": true
+}
