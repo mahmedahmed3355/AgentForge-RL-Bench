@@ -1,15 +1,27 @@
-# GI-M01 — Gymnasium Environment Contract Inspection
+# GI-M01
 
-Task ID: GI-M01
+Status: skeleton
+
 Difficulty: medium
-Domain: gymnasium_inspector
 
-The agent must inspect and repair a small Gymnasium-compatible environment so that
-its reset/step lifecycle, observation contract, reward accounting, termination
-semantics, and deterministic seeded behavior satisfy the public task contract.
+Primary capability: observation
 
-The task is intentionally terminal-driven. The agent interacts with the workspace
-through shell commands and modifies only the candidate environment files.
+Environment family: Gymnasium / Inspector
 
-The reference solution is deterministic.
-The verifier evaluates observable behavior and does not expose hidden oracle data.
+This directory is the implementation scaffold for the task.
+
+Required implementation layers:
+
+- environment
+- observation
+- action/tool interface
+- state transitions
+- multi-component reward
+- constraints
+- checkpoint behavior
+- termination
+- oracle
+- verifier
+- visible tests
+- hidden evaluation
+- adversarial validation

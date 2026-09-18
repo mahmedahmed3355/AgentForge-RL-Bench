@@ -1,29 +1,73 @@
-# GI-M01 — Inspect and Repair a Gymnasium Environment
+# Task: GI-M01
 
-You are given a small Gymnasium environment containing a contract violation.
+## Objective
 
-Your objective is to inspect the environment, identify the behavioral defect, and
-repair the candidate implementation.
+Solve the Gymnasium/Inspector environment task and reach the verified target state.
 
-The repaired environment must satisfy all of the following:
+## Domain
 
-1. reset() returns exactly (observation, info).
-2. step(action) returns exactly:
-   observation, reward, terminated, truncated, info
-3. Returned observations must belong to observation_space.
-4. Actions accepted by step() must belong to action_space.
-5. reward must be a float.
-6. terminated and truncated must be booleans.
-7. info must be a dictionary.
-8. The environment must support deterministic seeded reset behavior.
-9. Episode state must reset correctly between independent episodes.
-10. The terminal condition must be reached only through the intended task progression.
-11. The environment must not expose hidden verifier state.
-12. The implementation must preserve the declared Gymnasium spaces.
+RL / Gymnasium / Inspector
 
-Do not modify verifier files, oracle files, tests, or hidden evaluation material.
+## Difficulty
 
-Use the terminal to inspect the candidate implementation and run the available tests.
+medium
 
-The final environment must remain importable without depending on the AgentForge
-repository.
+## Primary capability
+
+observation
+
+## Environment
+
+The environment is stateful and interaction-driven.
+
+The agent must use observations and available actions/tools to determine the correct sequence of operations.
+
+The target state is not assumed to be directly visible.
+
+## Constraints
+
+- Do not assume hidden state.
+- Do not bypass the environment.
+- Do not modify verifier or oracle artifacts.
+- Do not rely on a fixed reference trajectory.
+- The final state must satisfy the verifier.
+- Intermediate actions must remain valid environment interactions.
+
+## Reasoning requirements
+
+The task is evaluated over an interaction trajectory rather than a single answer.
+
+The agent may need to:
+
+1. Inspect the current state.
+2. Select an appropriate action.
+3. Observe the resulting transition.
+4. Update its plan.
+5. Recover from incorrect intermediate decisions when possible.
+6. Reach the final target state.
+7. Produce behavior accepted by the verifier.
+
+## Hidden evaluation
+
+The evaluator may use unseen parameterizations and adversarial cases.
+
+Visible task information must not expose the complete reference trajectory.
+
+## Reward
+
+The environment exposes multiple reward components:
+
+- progress
+- correctness
+- tests
+- efficiency
+- terminal
+- penalties
+
+The final reward is the sum represented by the environment's RewardBreakdown contract.
+
+Reward must reflect correct behavior rather than shortcut exploitation.
+
+## Success
+
+Success requires verified final-state correctness and a valid interaction trajectory.

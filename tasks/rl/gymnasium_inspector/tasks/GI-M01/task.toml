@@ -2,22 +2,49 @@ schema_version = "1.4"
 
 [task]
 id = "GI-M01"
-name = "Gymnasium Environment Contract Inspection"
-description = "Inspect and repair a Gymnasium environment with a deterministic lifecycle and reward contract."
-authors = [{ name = "AgentForge Benchmark", email = "benchmark@example.com" }]
+name = "GI-M01"
+difficulty = "medium"
+domain = "rl"
+family = "gymnasium_inspector"
+
+authors = [
+  { name = "AgentForge", email = "agentforge@example.com" }
+]
 
 [metadata]
-category = "reinforcement-learning"
-difficulty = "medium"
-task_type = "environment-repair"
-domain = "gymnasium_inspector"
-rl_environment = true
-long_horizon = false
+capability = "observation"
+environment = "gymnasium_inspector"
+horizon = 100
+oracle_required = true
+verifier_required = true
+hidden_evaluation = true
+multi_reward = true
+
+[reward]
+components = ["progress", "correctness", "tests", "efficiency", "terminal", "penalties"]
+aggregation = "RewardBreakdown.total"
+
+[environment]
+family = "gymnasium_inspector"
+stateful = true
+partial_observability = true
+deterministic_seed = true
+checkpointable = true
+
+[oracle]
+enabled = true
+source_of_truth = "reference_behavior"
+modifies_candidate = false
+writes_reference_artifacts = false
 
 [verifier]
-timeout_sec = 120
+enabled = true
+validates_final_state = true
+validates_trajectory = true
+validates_hidden_cases = true
+rejects_reward_hacking = true
 
-[metadata.gymnasium]
-gymnasium_compatible = true
-action_type = "discrete"
-observation_type = "dict"
+[termination]
+success = "goal_state_verified"
+failure = "invalid_terminal_state"
+timeout = "max_steps"
