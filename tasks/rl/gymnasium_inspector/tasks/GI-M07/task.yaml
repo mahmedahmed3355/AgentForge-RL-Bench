@@ -1,0 +1,54 @@
+task_id: GI-M07
+version: 1.0.0
+domain: gymnasium_inspector
+difficulty: medium
+status: complete
+
+name: Gymnasium Contract Repair — GI-M07
+
+objective:
+  description: Repair the Gymnasium environment so its reset and step APIs,
+    spaces, termination semantics, reward typing, info contract, and seeded
+    determinism satisfy the task requirements.
+
+agent_interface:
+  type: filesystem
+  working_directory: environment/data
+  entrypoint: gym_env.py
+
+environment:
+  type: gymnasium
+  implementation: environment/data/gym_env.py
+  reset_contract: observation_info
+  step_contract: observation_reward_terminated_truncated_info
+
+reward:
+  type: multi_reward
+  deterministic: true
+  components:
+    - progress
+    - action
+    - terminal
+    - truncation
+
+oracle:
+  deterministic: true
+  entrypoint: oracle/solve.py
+  expected_success: true
+
+verifier:
+  hidden: true
+  entrypoint: verifier/verify.py
+  deterministic: true
+
+evaluation:
+  tests:
+    - tests/test_gym_env.py
+    - tests/test_outputs.py
+    - tests/test_multi_reward.py
+    - tests/test_hidden_boundary.py
+    - tests/test_trajectory_audit.py
+    - tests/test_anti_cheat.py
+    - tests/test_oracle.py
+  trajectory_auditing: true
+  anti_cheat: true
