@@ -130,7 +130,7 @@ def test_v2_repeated_observation_does_not_create_meaningful_progress():
     before = getattr(env.state, "progress", 0.0)
 
     for _ in range(8):
-        env.step({"tool": "inspect"})
+        env.step({"tool": "inspect_device"})
 
     after = getattr(env.state, "progress", 0.0)
 
@@ -202,7 +202,7 @@ def test_v2_failure_recovery_is_decision_based():
 
     if getattr(env.state, "health", None) in {"degraded", "failed"}:
         recovery = env.step({
-            "tool": "recover",
+            "tool": "recovery_count",
             "args": {"strategy": "reconfigure"},
         })
 
@@ -234,7 +234,7 @@ def test_v2_trajectory_has_real_decision_density():
     assert trajectory
 
     passive = {
-        "inspect",
+        "inspect_device",
         "benchmark",
         "benchmark_stage",
         "validate_output",
@@ -258,7 +258,7 @@ def test_v2_repetition_is_not_the_primary_progress_mechanism():
     trajectory = result["trajectory"]
 
     passive = {
-        "inspect",
+        "inspect_device",
         "benchmark",
         "benchmark_stage",
         "validate_output",
@@ -286,7 +286,7 @@ def test_v2_oracle_generalizes_without_artificial_padding():
         assert 70 <= len(trajectory) <= 110
 
         passive = {
-            "inspect",
+            "inspect_device",
             "benchmark",
             "benchmark_stage",
             "validate_output",

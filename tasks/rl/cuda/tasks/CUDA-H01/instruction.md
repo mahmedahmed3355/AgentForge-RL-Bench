@@ -287,3 +287,84 @@ Observation calls must not be used merely to inflate the trajectory.
 
 The target horizon remains approximately 80–100 meaningful actions.
 Artificial padding is not a valid solution mechanism.
+
+
+## CUDA-H01 Final Decision-Driven Contract
+
+The solution trajectory must be driven by meaningful engineering
+decisions rather than repeated observation or measurement calls.
+
+The oracle and candidate should investigate only when the current
+state creates a reason to do so. Repeating inspection, benchmarking,
+comparison, or validation without changing the engineering state
+does not constitute meaningful progress.
+
+Engineering decisions must have causal effects on later state,
+available actions, optimization choices, failure modes, recovery
+options, correctness, synchronization, or performance.
+
+At least two consequential decisions must have delayed effects.
+A locally successful configuration may expose a later correctness,
+synchronization, transfer, or performance problem. The agent must
+diagnose the resulting state and choose an appropriate recovery,
+rollback, or reconfiguration strategy.
+
+Multiple technically valid final configurations and trajectories
+are permitted. The final outcome is authoritative; no particular
+tool-call ordering is required.
+
+The target horizon remains approximately 70–100 meaningful actions.
+Artificial action padding must not be used to reach the horizon.
+
+## FINAL FIXES DECISION CONTRACT
+
+The solution must be driven by meaningful engineering decisions.
+
+Repeated observation, benchmark, comparison, and validation actions
+must not be used as artificial trajectory padding.
+
+Important decisions must affect later state, available actions,
+failure modes, recovery choices, correctness, synchronization,
+transfer behavior, or performance.
+
+At least two consequential decisions must have delayed effects that
+become observable only after subsequent engineering actions.
+
+When a consequential failure occurs, the agent must diagnose the
+observed state and select an appropriate recovery or replanning
+strategy before continuing.
+
+Multiple technically valid solution paths are allowed. The verifier
+must evaluate the resulting final engineering state and outcome,
+rather than requiring one prescribed tool-call sequence.
+
+The target horizon must come from genuine interaction and decisions,
+not artificial repetition.
+
+## CUDA-H01 Final Decision-Driven Execution Contract
+
+The solution must progress through meaningful engineering
+decisions rather than repeated observation or measurement calls.
+
+Observation, benchmarking, comparison, and validation actions
+are useful only when they inform a subsequent engineering choice.
+Repeating them without changing configuration, execution state,
+recovery state, or optimization state does not constitute progress.
+
+Early configuration decisions must constrain or influence later
+engineering choices. At least two consequential decisions must
+produce delayed effects that become visible only after later
+pipeline execution, synchronization, transfer, memory, kernel,
+or performance interactions.
+
+When a delayed consequence appears, the agent must diagnose it,
+select an appropriate recovery strategy, and continue from the
+resulting state rather than replaying the same observation loop.
+
+Multiple technically valid configurations and recovery paths are
+allowed. Acceptance must depend on the resulting valid terminal
+state and outcome, not on one prescribed action sequence.
+
+The oracle should demonstrate this behavior naturally. It must
+not add artificial actions merely to reach a target trajectory
+length.
