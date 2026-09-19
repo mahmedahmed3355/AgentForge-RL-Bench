@@ -210,3 +210,80 @@ and final correctness/performance, not repeated observation calls.
 The intended trajectory horizon is approximately 80–100
 meaningful actions. Artificial repetition must not be used to
 reach the horizon.
+
+
+## CUDA-H01 Final Polish Contract
+
+The task must be solved through meaningful engineering decisions.
+
+Repeated observation-only actions such as `inspect`, `benchmark`,
+`benchmark_stage`, `validate_output`, `compare_runs`, and
+`inspect_errors` must not be used as artificial trajectory padding.
+
+### Decision Density
+
+Meaningful progress must come primarily from engineering decisions,
+configuration changes, diagnosis, recovery, optimization, and
+state-changing actions.
+
+### Causal Branching
+
+Engineering choices must have causal effects on subsequent state.
+
+A different transfer strategy, stream configuration, synchronization
+strategy, recovery strategy, or optimization choice must be capable
+of changing later available actions, failure modes, performance,
+correctness, or recovery requirements.
+
+### Dependent Decisions
+
+Earlier engineering choices must constrain or influence later
+decisions. The agent should not be able to treat every decision as
+independent of previous configuration.
+
+### Delayed Consequences
+
+At least two important engineering decisions must be capable of
+appearing locally successful before producing a later consequence.
+
+Relevant consequences include:
+
+- transfer correctness,
+- synchronization behavior,
+- stream ordering,
+- performance degradation,
+- delayed failure,
+- recovery requirements.
+
+### Failure and Recovery
+
+When a consequential failure occurs, the agent must diagnose the
+failure and select an appropriate recovery path.
+
+Valid recovery paths may include rollback, reconfiguration,
+synchronization changes, transfer-strategy changes, or other
+technically valid alternatives supported by the environment.
+
+### Verifier Principle
+
+Successful completion is determined primarily by the resulting
+engineering state and outcome:
+
+- correctness,
+- performance,
+- synchronization validity,
+- recovery validity,
+- final task state,
+- and trajectory validity.
+
+Calling a particular tool is not sufficient for success.
+
+Multiple technically valid solution paths must remain acceptable.
+
+### Oracle Principle
+
+The oracle should demonstrate meaningful engineering decisions.
+Observation calls must not be used merely to inflate the trajectory.
+
+The target horizon remains approximately 80–100 meaningful actions.
+Artificial padding is not a valid solution mechanism.
