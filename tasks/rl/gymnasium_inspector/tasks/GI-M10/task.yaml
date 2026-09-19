@@ -1,0 +1,57 @@
+task_id: GI-M10
+version: 1.0.0
+domain: gymnasium_inspector
+difficulty: medium
+status: complete
+name: Gymnasium seeded reset and trajectory consistency
+objective: Repair the Gymnasium environment so seeded resets are deterministic and trajectories remain contract-valid.
+
+agent_interface:
+  type: terminal
+  entrypoint: environment/data/gym_env.py
+
+environment:
+  framework: gymnasium
+  deterministic_seed: required
+  max_steps: 8
+
+evaluation:
+  success_condition: deterministic_valid_trajectory
+  required_checks:
+    - reset_contract
+    - step_contract
+    - observation_membership
+    - action_membership
+    - reward_type
+    - termination_semantics
+    - seeded_determinism
+    - trajectory_audit
+
+oracle:
+  deterministic: true
+  entrypoint: oracle/solve.py
+
+reward:
+  type: multi_reward
+  components:
+    progress: 0.5
+    correctness: 1.0
+    tests: 1.0
+    efficiency: 0.5
+    terminal: 1.0
+    penalties: -0.5
+
+verifier:
+  hidden: true
+  entrypoint: verifier/verify.py
+  validates:
+    - final_behavior
+    - seeded_reproducibility
+    - trajectory_integrity
+    - anti_cheat_boundary
+
+anti_cheat:
+  required: true
+
+trajectory_audit:
+  required: true
