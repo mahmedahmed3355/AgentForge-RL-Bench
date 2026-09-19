@@ -1,6 +1,0 @@
-gymnasium>=1.0
-numpy>=1.26
-
-[dev]
-pytest>=8
-ruff>=0.6

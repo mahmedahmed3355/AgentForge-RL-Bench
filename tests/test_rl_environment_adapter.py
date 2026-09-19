@@ -44,7 +44,8 @@ def test_reset_returns_initial_observation():
     environment = DeterministicRLEnvironment()
     adapter = RLEnvironmentAdapter(environment)
 
-    observation = adapter.reset()
+    observation, info = adapter.reset()
+    assert info == {}
 
     assert observation == {
         "state": "start",
@@ -124,7 +125,8 @@ def test_reset_reopens_episode_after_termination():
     adapter.step({"type": "work"})
     adapter.step({"type": "finish"})
 
-    observation = adapter.reset()
+    observation, info = adapter.reset()
+    assert info == {}
 
     assert observation == {
         "state": "start",

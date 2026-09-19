@@ -43,7 +43,11 @@ class AgentEpisodeExecutor:
 
         self.agent.reset()
 
-        observation = self.environment.reset()
+        reset_result = self.environment.reset()
+        if isinstance(reset_result, tuple) and len(reset_result) == 2:
+            observation, _ = reset_result
+        else:
+            observation = reset_result
 
         runner = EpisodeRunner(
             episode_id=episode_id,

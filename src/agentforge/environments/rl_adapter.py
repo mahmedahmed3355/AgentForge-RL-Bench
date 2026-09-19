@@ -1,38 +1,76 @@
-"""RL adapter for exposing AgentForge environments through a Gymnasium-style API."""
+"""Gymnasium adapter for legacy AgentForge environments."""
 
 from __future__ import annotations
 
 from typing import Any
 
+import gymnasium as gym
+
 from .base import BaseEnvironment, EnvironmentStep
 
 
-class RLEnvironmentAdapter:
-    """Adapt an AgentForge environment to a Gymnasium-style interface.
+class RLEnvironmentAdapter(gym.Env):
+    """Expose an existing BaseEnvironment as a Gymnasium environment.
 
-    The adapter intentionally does not depend on Gymnasium itself.
-    This keeps AgentForge's core environment layer lightweight while
-    exposing the reset()/step() semantics expected by RL libraries.
+    This preserves the existing AgentForge environment implementation while
+    making the public adapter a genuine Gymnasium ``Env``.
     """
 
-    def __init__(self, environment: BaseEnvironment) -> None:
+    metadata: dict[str, Any] = {}
+
+    def __init__(
+        self,
+        environment: BaseEnvironment,
+    ) -> None:
+        super().__init__()
+
         self.environment = environment
         self._terminated = False
         self._truncated = False
 
-    def reset(self) -> Any:
-        """Reset the environment and return the initial observation."""
+    def reset(
+        self,
+        *,
+        seed: int | None = None,
+        options: dict[str, Any] | None = None,
+    ) -> tuple[Any, dict[str, Any]]:
+        """Reset and return Gymnasium's ``(observation, info)``."""
+
+        super().reset(seed=seed)
 
         self._terminated = False
         self._truncated = False
 
-        return self.environment.reset()
+        try:
+            observation = self.environment.reset(
+                seed=seed
+            )
+        except TypeError:
+            # Preserve compatibility with the existing BaseEnvironment
+            # contract, whose reset() predates Gymnasium seeding.
+            observation = self.environment.reset()
+
+        info: dict[str, Any] = {}
+
+        if options:
+            info["reset_options"] = dict(options)
+
+        if seed is not None:
+            info["seed"] = seed
+
+        return observation, info
 
     def step(
         self,
         action: Any,
-    ) -> tuple[Any, float, bool, bool, dict[str, Any]]:
-        """Execute one action using Gymnasium-style semantics."""
+    ) -> tuple[
+        Any,
+        float,
+        bool,
+        bool,
+        dict[str, Any],
+    ]:
+        """Execute one action using Gymnasium semantics."""
 
         if self._terminated or self._truncated:
             raise RuntimeError(
@@ -40,7 +78,9 @@ class RLEnvironmentAdapter:
                 "Call reset() first."
             )
 
-        transition: EnvironmentStep = self.environment.step(action)
+        transition: EnvironmentStep = (
+            self.environment.step(action)
+        )
 
         terminated = bool(transition.done)
         truncated = False

@@ -36,7 +36,11 @@ class EpisodeExecutor:
             max_steps=self.max_steps,
         )
 
-        observation = self.environment.reset()
+        reset_result = self.environment.reset()
+        if isinstance(reset_result, tuple) and len(reset_result) == 2:
+            observation, _ = reset_result
+        else:
+            observation = reset_result
 
         while not runner.done:
             action = self.agent(observation)

@@ -1,12 +1,10 @@
 """AgentForge environment interfaces and implementations."""
 
 from .base import BaseEnvironment, EnvironmentStep
-from .gymnasium_env import AgentForgeGymEnv
 from .mock_backend import MockBackendEnvironment
 from .rl_adapter import RLEnvironmentAdapter
 
 __all__ = [
-    "AgentForgeGymEnv",
     "BaseEnvironment",
     "EnvironmentStep",
     "MockBackendEnvironment",

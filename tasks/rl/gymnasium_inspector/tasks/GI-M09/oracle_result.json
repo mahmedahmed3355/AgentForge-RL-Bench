@@ -1,9 +1,0 @@
-{
-  "success": true,
-  "steps": 8,
-  "terminated": true,
-  "truncated": false,
-  "final_position": 8,
-  "reward_total": 9.5,
-  "observation_valid": true
-}
