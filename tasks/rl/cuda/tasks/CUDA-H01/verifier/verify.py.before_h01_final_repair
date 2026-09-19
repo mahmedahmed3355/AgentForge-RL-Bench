@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+
+TASK_ROOT = Path(__file__).resolve().parents[1]
+
+# Put the task root before the verifier directory so that
+# `verifier.verifier` resolves as the package/module pair.
+if str(TASK_ROOT) not in sys.path:
+    sys.path.insert(0, str(TASK_ROOT))
+
+from verifier.verifier import Verifier
+
+
+ORACLE_RESULT_PATH = TASK_ROOT / "oracle_result.json"
+
+
+def load_oracle_result() -> dict:
+    if not ORACLE_RESULT_PATH.exists():
+        raise FileNotFoundError(
+            f"Oracle result not found: {ORACLE_RESULT_PATH}"
+        )
+
+    with ORACLE_RESULT_PATH.open("r", encoding="utf-8") as f:
+        result = json.load(f)
+
+    if not isinstance(result, dict):
+        raise ValueError("oracle_result.json must contain a JSON object")
+
+    return result
+
+
+def main() -> int:
+    result = load_oracle_result()
+
+    trajectory = result.get("trajectory")
+    final_state = result.get("final_state")
+
+    if not isinstance(trajectory, list):
+        raise ValueError("oracle result missing list field: trajectory")
+
+    if not isinstance(final_state, dict):
+        raise ValueError("oracle result missing object field: final_state")
+
+    verifier = Verifier()
+
+    verdict = verifier.verify(
+        trajectory,
+        final_state,
+    )
+
+    payload = {
+        "verified": bool(verdict.passed),
+    }
+
+    if hasattr(verdict, "score"):
+        payload["score"] = verdict.score
+
+    if hasattr(verdict, "reasons"):
+        payload["reasons"] = list(verdict.reasons)
+
+    print(json.dumps(payload, ensure_ascii=False))
+
+    return 0 if verdict.passed else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

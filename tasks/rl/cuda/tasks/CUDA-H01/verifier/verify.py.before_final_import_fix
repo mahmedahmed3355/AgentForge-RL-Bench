@@ -1,0 +1,34 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from verifier import Verifier
+
+
+def main() -> int:
+    path = ROOT / "oracle_result.json"
+    if not path.exists():
+        print(f"Oracle result not found: {path}")
+        return 1
+
+    result = json.loads(path.read_text(encoding="utf-8"))
+    verdict = Verifier().verify(
+        result.get("trajectory"),
+        result.get("final_state"),
+    )
+    print(json.dumps({
+        "verified": verdict.passed,
+        "score": verdict.score,
+        "reasons": list(verdict.reasons),
+    }, indent=2, sort_keys=True))
+    return 0 if verdict.passed else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+

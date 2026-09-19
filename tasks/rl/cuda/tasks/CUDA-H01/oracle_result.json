@@ -1,0 +1,629 @@
+{
+  "success": true,
+  "steps": 80,
+  "trajectory": [
+    {
+      "action": {
+        "tool": "inspect_device"
+      },
+      "reward": 0.07
+    },
+    {
+      "action": {
+        "tool": "inspect_pipeline"
+      },
+      "reward": 0.12
+    },
+    {
+      "action": {
+        "tool": "inspect_memory"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "inspect_kernel"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "inspect_streams"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "inspect_events"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "inspect_errors"
+      },
+      "reward": 0.19000000000000003
+    },
+    {
+      "action": {
+        "tool": "modify_memory_strategy",
+        "args": {
+          "strategy": "pinned"
+        }
+      },
+      "reward": -0.08000000000000002
+    },
+    {
+      "action": {
+        "tool": "modify_transfer_strategy",
+        "args": {
+          "strategy": "async"
+        }
+      },
+      "reward": 0.37
+    },
+    {
+      "action": {
+        "tool": "modify_stream_config",
+        "args": {
+          "streams": 2
+        }
+      },
+      "reward": -0.08000000000000002
+    },
+    {
+      "action": {
+        "tool": "modify_sync_strategy",
+        "args": {
+          "strategy": "device"
+        }
+      },
+      "reward": -0.08000000000000002
+    },
+    {
+      "action": {
+        "tool": "benchmark_pipeline"
+      },
+      "reward": 0.3
+    },
+    {
+      "action": {
+        "tool": "validate_output"
+      },
+      "reward": 1.08
+    },
+    {
+      "action": {
+        "tool": "stress_test"
+      },
+      "reward": -0.15
+    },
+    {
+      "action": {
+        "tool": "modify_event_config",
+        "args": {
+          "events": true
+        }
+      },
+      "reward": 0.37
+    },
+    {
+      "action": {
+        "tool": "modify_sync_strategy",
+        "args": {
+          "strategy": "event"
+        }
+      },
+      "reward": 0.37
+    },
+    {
+      "action": {
+        "tool": "rollback_change"
+      },
+      "reward": 0.9299999999999999
+    },
+    {
+      "action": {
+        "tool": "modify_sync_strategy",
+        "args": {
+          "strategy": "event"
+        }
+      },
+      "reward": 0.37
+    },
+    {
+      "action": {
+        "tool": "modify_kernel_config",
+        "args": {
+          "blocks": 256,
+          "shared_kb": 0,
+          "registers": 32
+        }
+      },
+      "reward": 0.37
+    },
+    {
+      "action": {
+        "tool": "run_stage",
+        "args": {
+          "stage": "h2d"
+        }
+      },
+      "reward": 0.8500000000000001
+    },
+    {
+      "action": {
+        "tool": "benchmark_stage",
+        "args": {
+          "stage": "h2d"
+        }
+      },
+      "reward": 0.38
+    },
+    {
+      "action": {
+        "tool": "inspect_errors"
+      },
+      "reward": 0.19000000000000003
+    },
+    {
+      "action": {
+        "tool": "validate_output"
+      },
+      "reward": 1.08
+    },
+    {
+      "action": {
+        "tool": "benchmark_stage",
+        "args": {
+          "stage": "h2d"
+        }
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "compare_runs"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "inspect_pipeline"
+      },
+      "reward": 0.12
+    },
+    {
+      "action": {
+        "tool": "run_stage",
+        "args": {
+          "stage": "preprocess"
+        }
+      },
+      "reward": 0.8500000000000001
+    },
+    {
+      "action": {
+        "tool": "benchmark_stage",
+        "args": {
+          "stage": "preprocess"
+        }
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "inspect_errors"
+      },
+      "reward": 0.09000000000000002
+    },
+    {
+      "action": {
+        "tool": "validate_output"
+      },
+      "reward": 1.08
+    },
+    {
+      "action": {
+        "tool": "benchmark_stage",
+        "args": {
+          "stage": "preprocess"
+        }
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "compare_runs"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "inspect_pipeline"
+      },
+      "reward": 0.01999999999999999
+    },
+    {
+      "action": {
+        "tool": "run_stage",
+        "args": {
+          "stage": "transform"
+        }
+      },
+      "reward": 0.8500000000000001
+    },
+    {
+      "action": {
+        "tool": "benchmark_stage",
+        "args": {
+          "stage": "transform"
+        }
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "inspect_errors"
+      },
+      "reward": 0.09000000000000002
+    },
+    {
+      "action": {
+        "tool": "validate_output"
+      },
+      "reward": 1.08
+    },
+    {
+      "action": {
+        "tool": "benchmark_stage",
+        "args": {
+          "stage": "transform"
+        }
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "compare_runs"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "inspect_pipeline"
+      },
+      "reward": 0.01999999999999999
+    },
+    {
+      "action": {
+        "tool": "run_stage",
+        "args": {
+          "stage": "reduction"
+        }
+      },
+      "reward": 0.8500000000000001
+    },
+    {
+      "action": {
+        "tool": "benchmark_stage",
+        "args": {
+          "stage": "reduction"
+        }
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "inspect_errors"
+      },
+      "reward": 0.09000000000000002
+    },
+    {
+      "action": {
+        "tool": "validate_output"
+      },
+      "reward": 1.08
+    },
+    {
+      "action": {
+        "tool": "benchmark_stage",
+        "args": {
+          "stage": "reduction"
+        }
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "compare_runs"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "inspect_pipeline"
+      },
+      "reward": 0.01999999999999999
+    },
+    {
+      "action": {
+        "tool": "run_stage",
+        "args": {
+          "stage": "postprocess"
+        }
+      },
+      "reward": 0.8500000000000001
+    },
+    {
+      "action": {
+        "tool": "benchmark_stage",
+        "args": {
+          "stage": "postprocess"
+        }
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "inspect_errors"
+      },
+      "reward": 0.09000000000000002
+    },
+    {
+      "action": {
+        "tool": "validate_output"
+      },
+      "reward": 1.08
+    },
+    {
+      "action": {
+        "tool": "benchmark_stage",
+        "args": {
+          "stage": "postprocess"
+        }
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "compare_runs"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "inspect_pipeline"
+      },
+      "reward": 0.01999999999999999
+    },
+    {
+      "action": {
+        "tool": "run_stage",
+        "args": {
+          "stage": "d2h"
+        }
+      },
+      "reward": 0.8500000000000001
+    },
+    {
+      "action": {
+        "tool": "benchmark_stage",
+        "args": {
+          "stage": "d2h"
+        }
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "inspect_errors"
+      },
+      "reward": 0.09000000000000002
+    },
+    {
+      "action": {
+        "tool": "validate_output"
+      },
+      "reward": 1.08
+    },
+    {
+      "action": {
+        "tool": "benchmark_stage",
+        "args": {
+          "stage": "d2h"
+        }
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "compare_runs"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "inspect_pipeline"
+      },
+      "reward": 0.01999999999999999
+    },
+    {
+      "action": {
+        "tool": "benchmark_pipeline"
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "compare_runs"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "inspect_errors"
+      },
+      "reward": 0.09000000000000002
+    },
+    {
+      "action": {
+        "tool": "benchmark_pipeline"
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "compare_runs"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "inspect_errors"
+      },
+      "reward": 0.09000000000000002
+    },
+    {
+      "action": {
+        "tool": "benchmark_pipeline"
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "compare_runs"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "inspect_errors"
+      },
+      "reward": 0.09000000000000002
+    },
+    {
+      "action": {
+        "tool": "benchmark_pipeline"
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "compare_runs"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "inspect_errors"
+      },
+      "reward": 0.09000000000000002
+    },
+    {
+      "action": {
+        "tool": "benchmark_pipeline"
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "validate_output"
+      },
+      "reward": 1.08
+    },
+    {
+      "action": {
+        "tool": "stress_test"
+      },
+      "reward": 0.62
+    },
+    {
+      "action": {
+        "tool": "compare_runs"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "benchmark_pipeline"
+      },
+      "reward": 0.23
+    },
+    {
+      "action": {
+        "tool": "compare_runs"
+      },
+      "reward": 0.1
+    },
+    {
+      "action": {
+        "tool": "final_verify"
+      },
+      "reward": 6.5
+    }
+  ],
+  "final_state": {
+    "task_id": "CUDA-H01",
+    "step": 80,
+    "mode": "simulation",
+    "stage": "d2h",
+    "health": "healthy",
+    "pipeline_status": "running",
+    "config": {
+      "memory_strategy": "pinned",
+      "transfer_strategy": "async",
+      "streams": 2,
+      "events": true,
+      "sync_strategy": "event",
+      "blocks": 256,
+      "shared_kb": 0,
+      "registers": 32
+    },
+    "workload": {
+      "input_mb": 256,
+      "tensor_shape": [
+        2048,
+        1024
+      ],
+      "intensity": 2,
+      "memory_pressure": 4,
+      "required_performance": 123.0
+    },
+    "benchmark_count": 21,
+    "validation_count": 8,
+    "failures": [
+      "delayed_synchronization_failure"
+    ],
+    "recovery_count": 1,
+    "replans": 1,
+    "active_hypothesis": "intermittent execution anomaly",
+    "terminal": true,
+    "success": true,
+    "last_error": null,
+    "available_tools": [
+      "inspect_device",
+      "inspect_pipeline",
+      "inspect_memory",
+      "inspect_kernel",
+      "inspect_streams",
+      "inspect_events",
+      "inspect_errors",
+      "run_stage",
+      "run_pipeline",
+      "benchmark_stage",
+      "benchmark_pipeline",
+      "validate_output",
+      "stress_test",
+      "modify_kernel_config",
+      "modify_memory_strategy",
+      "modify_transfer_strategy",
+      "modify_stream_config",
+      "modify_event_config",
+      "modify_sync_strategy",
+      "rollback_change",
+      "compare_runs",
+      "final_verify"
+    ]
+  }
+}
