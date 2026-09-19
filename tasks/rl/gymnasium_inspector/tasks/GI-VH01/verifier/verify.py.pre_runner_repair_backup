@@ -1,0 +1,57 @@
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[4]
+TASK_ROOT = Path(__file__).resolve().parents[1]
+
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from verifier.verifier import Verifier  # type: ignore
+
+
+def main() -> int:
+    verifier = Verifier()
+
+    if hasattr(verifier, "verify"):
+        result = verifier.verify()
+    elif hasattr(verifier, "run"):
+        result = verifier.run()
+    elif hasattr(verifier, "execute"):
+        result = verifier.execute()
+    else:
+        raise AttributeError(
+            "GI-VH01 Verifier must expose verify(), run(), or execute()."
+        )
+
+    if result is None:
+        result = {"verified": True}
+
+    if hasattr(result, "model_dump"):
+        result = result.model_dump()
+    elif hasattr(result, "__dict__") and not isinstance(
+        result, (str, int, float, bool, list, tuple, dict)
+    ):
+        result = result.__dict__
+
+    print(json.dumps(result, indent=2, sort_keys=True, default=str))
+
+    if isinstance(result, dict):
+        verified = bool(
+            result.get(
+                "verified",
+                result.get("success", False),
+            )
+        )
+    else:
+        verified = bool(result)
+
+    return 0 if verified else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

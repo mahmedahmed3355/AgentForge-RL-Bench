@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+
+from __future__ import annotations
+
+import importlib.util
+import json
+import sys
+from pathlib import Path
+
+
+TASK_ROOT = Path(__file__).resolve().parents[1]
+VERIFIER_DIR = Path(__file__).resolve().parent
+VERIFIER_PATH = VERIFIER_DIR / "verifier.py"
+
+# Make the task root importable.
+sys.path.insert(0, str(TASK_ROOT))
+
+# Load verifier.py explicitly.
+#
+# IMPORTANT:
+# The module MUST be registered in sys.modules BEFORE exec_module().
+# Python 3.13 dataclasses may access sys.modules while processing
+# class annotations / class metadata.
+MODULE_NAME = "gi_vh01_verifier_impl"
+
+spec = importlib.util.spec_from_file_location(
+    MODULE_NAME,
+    VERIFIER_PATH,
+)
+
+if spec is None or spec.loader is None:
+    raise RuntimeError(
+        f"Unable to create import specification for {VERIFIER_PATH}"
+    )
+
+module = importlib.util.module_from_spec(spec)
+
+# Critical Python 3.13 compatibility step.
+sys.modules[MODULE_NAME] = module
+
+spec.loader.exec_module(module)
+
+
+def main() -> int:
+    verifier_cls = getattr(module, "Verifier", None)
+
+    if verifier_cls is None:
+        raise RuntimeError(
+            "verifier.py does not expose a Verifier class"
+        )
+
+    verifier = verifier_cls()
+
+    # Prefer the canonical verify() method when available.
+    verify_method = getattr(verifier, "verify", None)
+
+    if verify_method is None:
+        raise RuntimeError(
+            "Verifier class does not expose a verify() method"
+        )
+
+    result = verify_method()
+
+    if isinstance(result, dict):
+        print(json.dumps(result, indent=2, sort_keys=True))
+    else:
+        print(json.dumps({"verified": bool(result)}, indent=2))
+
+    return 0 if bool(result) else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
